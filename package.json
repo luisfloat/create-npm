@@ -5,6 +5,9 @@
   "main": "src/main/index.js",
   "author": "Luis Float <contact@luisfloat.com> (https://luisfloat.com)",
   "license": "UNLICENSED",
+  "scripts": {
+    "install": "npm config set init-module src/main/index.js"
+  },
   "keywords": [
     "npm",
     "init-module"
