@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "My custom NPM init module.",
   "main": "src/main/index.js",
+  "bin": "src/main/index.js",
   "author": "Luis Float <contact@luisfloat.com> (https://luisfloat.com)",
   "license": "UNLICENSED",
   "scripts": {
