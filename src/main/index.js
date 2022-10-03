@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const pkgName = package.name || basename;
 
 module.exports = {
