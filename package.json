@@ -1,9 +1,9 @@
 {
   "name": "lf-npm-init",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "My custom NPM init module.",
   "main": "src/main/index.js",
-  "bin": "src/main/index.js",
+  "bin": "src/main/bin.js",
   "author": "Luis Float <contact@luisfloat.com> (https://luisfloat.com)",
   "license": "UNLICENSED",
   "scripts": {
@@ -20,5 +20,9 @@
   "homepage": "https://github.com/luisfloat/lf-npm-init#readme",
   "bugs": {
     "url": "https://github.com/luisfloat/lf-npm-init/issues"
+  },
+  "dependencies": {
+    "colorette": "^2.0.19",
+    "inquirer": "^8.0.0"
   }
 }
