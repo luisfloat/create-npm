@@ -57,12 +57,15 @@ async function run() {
         type: "confirm",
         default: true,
         name: "confirm",
-        message: "Everything ok?",
+        message: "Is this OK?",
     });
 
     if(confirm.value) {
         fs.writeFileSync("package.json", json);
+        return;
     }
+
+    console.log("Aborted.");
 }
 
 run();
