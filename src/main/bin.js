@@ -87,7 +87,7 @@ async function run() {
         message: "Is this OK?",
     });
 
-    if(confirm.value) {
+    if(confirm.confirm) {
         fs.writeFileSync("package.json", json);
         return;
     }
