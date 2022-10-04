@@ -1,5 +1,5 @@
 {
-  "name": "lf-npm-init",
+  "name": "create-lf-npm",
   "version": "0.2.3",
   "description": "My custom NPM init module.",
   "main": "src/main/index.js",
