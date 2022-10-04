@@ -9,46 +9,65 @@ const inquirer = require("inquirer");
 const basename = path.basename(process.cwd());
 const pkg = JSON.parse(fs.existsSync("package.json") && fs.readFileSync("package.json"));
 
-const filters = {
-    repository: (value) => value && {
-        type: "git",
-        url: `git+https://github.com/${value.replace("github:", "")}.git`,
-    },
-    bugs: (url) => url && { url },
-    keywords: (s) => s && s.split(/\s+/),
-};
+const pkgName = pkg.name || basename;
 
-const defaults = {
-    name: (s) => s || basename,
-    keywords: (s) => s && s.join(" "),
-    repository: (s) => s && `${new URL(s.url).pathname.replace("/", "").replace(".git", "")}`,
-    bugs: (s) => s && s.url,
+const prompts = {
+    name: {
+        message: "package name",
+        default: (s) => s || basename,
+    },
+    version: {
+        message: "version",
+        def: "0.0.0",
+    },
+    description: {
+        message: "description",
+    },
+    keywords: {
+        message: "keywords",
+        default: (s) => s && s.join(" "),
+        filter: (s) => s && s.split(/\s+/),
+    },
+    main: {
+        message: "entry point",
+        def: "index.js",
+    },
+    author: {
+        message: "author",
+        def: "Luis Float <contact@luisfloat.com> (https://luisfloat.com)",
+    },
+    license: {
+        message: "license",
+        def: "UNLICENSED",
+    },
+    repository: {
+        message: "repository",
+        def: `luisfloat/${pkgName}`,
+        default: (s) => s && `${new URL(s.url).pathname.replace("/", "").replace(".git", "")}`,
+        filter: (value) => value && {
+            type: "git",
+            url: `git+https://github.com/${value.replace("github:", "")}.git`,
+        },
+    },
+    homepage: {
+        message: "homepage",
+        def: `https://github.com/luisfloat/${pkgName}#readme`,
+    },
+    bugs: {
+        message: "bugs",
+        def: `https://github.com/luisfloat/${pkgName}/issues`,
+        default: (s) => s && s.url,
+        filter: (url) => url && { url },
+    },
 };
 
 const input = async (name, message, def) => (await inquirer.prompt({
     type: "input",
     name,
     message: message + ":",
-    filter: filters[name],
-    default: (defaults[name] && defaults[name](pkg[name])) || pkg[name] || def,
+    filter: prompts[name].filter,
+    default: (prompts[name].default && prompts[name].default(pkg[name])) || pkg[name] || def,
 }))[name];
-
-const prompt = (message, def) => ({ message, def });
-
-const pkgName = defaults.name(pkg.name);
-
-const prompts = {
-    name: prompt("package name"),
-    version: prompt("version", "0.0.0"),
-    description: prompt("description"),
-    main: prompt("entry point", "index.js"),
-    keywords: prompt("keywords"),
-    author: prompt("author", "Luis Float <contact@luisfloat.com> (https://luisfloat.com)"),
-    license: prompt("license", "UNLICENSED"),
-    repository: prompt("repository", `luisfloat/${pkgName}`),
-    homepage: prompt("homepage", `https://github.com/luisfloat/${pkgName}#readme`),
-    bugs: prompt("bugs", `https://github.com/luisfloat/${pkgName}/issues`),
-};
 
 async function run() {
     const newPkg = pkg;
