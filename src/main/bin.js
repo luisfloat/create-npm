@@ -70,7 +70,7 @@ const input = async (name, message, def) => (await inquirer.prompt({
 }))[name];
 
 async function run() {
-    const newPkg = pkg;
+    const newPkg = { ...pkg };
     
     for(let k in prompts) {
         const p = prompts[k];
