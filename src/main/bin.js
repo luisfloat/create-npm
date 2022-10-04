@@ -33,23 +33,31 @@ const input = async (name, message, def) => (await inquirer.prompt({
     default: (defaults[name] && defaults[name](pkg[name])) || pkg[name] || def,
 }))[name];
 
+const prompt = (message, def) => ({ message, def });
+
+const pkgName = defaults.name(pkg.name);
+
+const prompts = {
+    name: prompt("package name"),
+    version: prompt("version", "0.0.0"),
+    description: prompt("description"),
+    main: prompt("entry point", "index.js"),
+    keywords: prompt("keywords"),
+    author: prompt("author", "Luis Float <contact@luisfloat.com> (https://luisfloat.com)"),
+    license: prompt("license", "UNLICENSED"),
+    repository: prompt("repository", `luisfloat/${pkgName}`),
+    homepage: prompt("homepage", `https://github.com/luisfloat/${pkgName}#readme`),
+    bugs: prompt("bugs", `https://github.com/luisfloat/${pkgName}/issues`),
+};
+
 async function run() {
-    const pkgName = defaults.name(pkg.name);
-
-    const newPkg = {
-        ...pkg,
-        name: await input("name", "package name"),
-        version: await input("version", "version", "0.0.0"),
-        description: await input("description", "description"),
-        main: await input("main", "entry point", "index.js"),
-        keywords: await input("keywords", "keywords"),
-        author: await input("author", "author", "Luis Float <contact@luisfloat.com> (https://luisfloat.com)"),
-        license: await input("license", "license", "UNLICENSED"),
-        repository: await input("repository", "repository", `luisfloat/${pkgName}`),
-        homepage: await input("homepage", "homepage", `https://github.com/luisfloat/${pkgName}#readme`),
-        bugs: await input("bugs", "bugs", `https://github.com/luisfloat/${pkgName}/issues`),
-    };
-
+    const newPkg = pkg;
+    
+    for(let k in prompts) {
+        const p = prompts[k];
+        newPkg[k] = await input(k, p.message, p.def);
+    }
+    
     const json = JSON.stringify(newPkg, null, 2);
     console.log(cyan(`${json}`));
 
