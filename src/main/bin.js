@@ -5,10 +5,11 @@ const { cyan } = colorette;
 const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
+const { readPkg, writePkg } = require("./pkg.js");
 
 const basename = path.basename(process.cwd());
-const pkg = JSON.parse(fs.existsSync("package.json") && fs.readFileSync("package.json"));
 
+const pkg = readPkg();
 const pkgName = pkg.name || basename;
 
 const prompts = {
@@ -88,7 +89,7 @@ async function run() {
     });
 
     if(confirm.confirm) {
-        fs.writeFileSync("package.json", json);
+        writePkg(json);
         return;
     }
 
