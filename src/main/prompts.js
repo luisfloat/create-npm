@@ -35,7 +35,7 @@ const prompts = {
         def: "UNLICENSED",
     },
     repository: {
-        message: "repository",
+        message: "github repository",
         def: `luisfloat/${pkgName}`,
         default: (s) => s && `${new URL(s.url).pathname.replace("/", "").replace(".git", "")}`,
         filter: (value) => value && {
@@ -44,11 +44,11 @@ const prompts = {
         },
     },
     homepage: {
-        message: "homepage",
+        message: "homepage url",
         def: `https://github.com/luisfloat/${pkgName}#readme`,
     },
     bugs: {
-        message: "bugs",
+        message: "bugs url",
         def: `https://github.com/luisfloat/${pkgName}/issues`,
         default: (s) => s && s.url,
         filter: (url) => url && { url },
