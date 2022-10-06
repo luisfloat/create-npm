@@ -16,7 +16,7 @@ const input = async (name, message, def) => (await inquirer.prompt({
     default: (prompts[name].default && prompts[name].default(pkg[name])) || pkg[name] || def,
 }))[name];
 
-async function genJsonFromInputs() {
+async function genPkgFromInputs() {
     const newPkg = { ...pkg };
     
     for(let k in prompts) {
@@ -28,7 +28,7 @@ async function genJsonFromInputs() {
 }
 
 async function run() {
-    const newPkg = await genJsonFromInputs(); 
+    const newPkg = await genPkgFromInputs(); 
     
     const json = JSON.stringify(newPkg, null, 2);
     console.log(cyan(`${json}`));
