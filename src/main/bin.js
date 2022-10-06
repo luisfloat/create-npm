@@ -15,6 +15,16 @@ const input = async (name, message, def) => (await inquirer.prompt({
     filter: prompts[name].filter,
     default: (prompts[name].default && prompts[name].default(pkg[name])) || pkg[name] || def,
 }))[name];
+const confirm = async () => {
+    const prompt = await inquirer.prompt({
+        type: "confirm",
+        default: true,
+        name: "confirm",
+        message: "Is this OK?",
+    });
+
+    return prompt.confirm;
+}
 
 async function genPkgFromInputs() {
     const newPkg = { ...pkg };
@@ -29,18 +39,11 @@ async function genPkgFromInputs() {
 
 async function run() {
     const newPkg = await genPkgFromInputs(); 
-    
     const json = JSON.stringify(newPkg, null, 2);
+    
     console.log(cyan(`${json}`));
 
-    const confirm = await inquirer.prompt({
-        type: "confirm",
-        default: true,
-        name: "confirm",
-        message: "Is this OK?",
-    });
-
-    if(confirm.confirm) {
+    if(await confirm()) {
         writePkg(json);
         return;
     }
