@@ -8,13 +8,20 @@ const prompts = require("./prompts.js");
 
 const pkg = readPkg();
 
-const input = async (name, message, def) => (await inquirer.prompt({
-    type: "input",
-    name,
-    message: message + ":",
-    filter: prompts[name].filter,
-    default: (prompts[name].default && prompts[name].default(pkg[name])) || pkg[name] || def,
-}))[name];
+const input = async (name, message, def) => {
+    const oldPkgValue = pkg[name];
+    const p = prompts[name];
+
+    const prompt = await inquirer.prompt({
+        type: "input",
+        name,
+        message: message + ":",
+        filter: p.filter,
+        default: (p.default && p.default(oldPkgValue)) || oldPkgValue || def,
+    });
+
+    return prompt[name];
+};
 const confirm = async () => {
     const prompt = await inquirer.prompt({
         type: "confirm",
