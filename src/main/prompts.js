@@ -8,7 +8,7 @@ const pkgName = pkg.name || basename;
 const prompts = {
     name: {
         message: "package name",
-        default: (s) => s || basename,
+        def: pkgName,
     },
     version: {
         message: "version",
