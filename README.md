@@ -16,3 +16,17 @@ git clone https://github.com/luisfloat/lf-cv
 cd lf-cv
 npm run install
 ```
+
+## Usage
+
+Using executable:
+
+```bash
+npm init luisfloat/npm
+```
+
+Using init module config:
+
+```bash
+npm init
+```
